@@ -32,11 +32,19 @@ const getToken = async () => {
 
 const createPayment = async (req: any, res: any) => {
   try {
+    const request = {
+      amount: "85.50",
+      intent: "sale",
+      currency: "BDT",
+      merchantInvoiceNumber: "123456",
+    };
+
     const body = req.body;
+    const orderId = req.body.orderId;
     const { id_token } = await getToken();
 
-    const createCheckoutUrl =
-      "https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/create";
+    const createCheckoutUrl = 1;
+    ("https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/create");
 
     const options: AxiosRequestConfig = {
       method: "POST",
@@ -47,7 +55,7 @@ const createPayment = async (req: any, res: any) => {
         "X-APP-Key": BKASH_APP_KEY,
         "content-type": "application/json",
       },
-      data: body,
+      data: request,
     };
 
     // const response = await axios(options);
