@@ -1,50 +1,14 @@
 import axios, { AxiosRequestConfig } from "axios";
-
-const BKASH_USERNAME = "sandboxTestUser";
-const BKASH_PASSWORD = "hWD@8vtzw0";
+import { RequestHandler } from "express";
 const BKASH_APP_KEY = "5tunt4masn6pv2hnvte1sb5n3j";
-const BKASH_APP_SECRET = "1vggbqd4hqk9g96o9rrrp2jftvek578v7d2bnerim12a87dbrrka";
-
-const getToken = async () => {
+const createPayment: RequestHandler = async (req, res) => {
   try {
-    const grantTokenUrl =
-      "https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/token/grant";
+    const request = req.body;
+    const id_token = req.headers.authorization;
+    const app_key = req.headers["X-APP-Key"];
 
-    const options: AxiosRequestConfig = {
-      method: "POST",
-      url: grantTokenUrl,
-      headers: {
-        accept: "application/json",
-        username: BKASH_USERNAME,
-        password: BKASH_PASSWORD,
-        "content-type": "application/json",
-      },
-      data: { app_key: BKASH_APP_KEY, app_secret: BKASH_APP_SECRET },
-    };
-
-    const response = await axios(options);
-
-    return response.data;
-  } catch (error) {
-    console.error(error.data);
-  }
-};
-
-const createPayment = async (req: any, res: any) => {
-  try {
-    const request = {
-      amount: "85.50",
-      intent: "sale",
-      currency: "BDT",
-      merchantInvoiceNumber: "123456",
-    };
-
-    const body = req.body;
-    const orderId = req.body.orderId;
-    const { id_token } = await getToken();
-
-    const createCheckoutUrl = 1;
-    ("https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/create");
+    const createCheckoutUrl =
+      "https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/create";
 
     const options = {
       method: "POST",
@@ -57,10 +21,9 @@ const createPayment = async (req: any, res: any) => {
       },
       data: request,
     };
+    const response = await axios(options);
 
-    // const response = await axios(options);
-
-    // res.status(response.status).json(response.data);
+    res.status(response.status).json(response.data);
   } catch (error) {
     console.error(error.data);
     res.status(500).json({ error: "Internal Server Error" });

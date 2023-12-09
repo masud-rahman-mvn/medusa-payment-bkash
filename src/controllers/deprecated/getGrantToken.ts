@@ -6,10 +6,8 @@ const BKASH_PASSWORD = "hWD@8vtzw0";
 const BKASH_APP_KEY = "5tunt4masn6pv2hnvte1sb5n3j";
 const BKASH_APP_SECRET = "1vggbqd4hqk9g96o9rrrp2jftvek578v7d2bnerim12a87dbrrka";
 
-const getProductInfo = async (req: any, res: any) => {
+const getGrantToken = async (req: any, res: any) => {
   try {
-    console.log(req.body);
-
     const grantTokenUrl =
       "https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/token/grant";
 
@@ -25,14 +23,13 @@ const getProductInfo = async (req: any, res: any) => {
       data: { app_key: BKASH_APP_KEY, app_secret: BKASH_APP_SECRET },
     };
 
-    // const response = await axios(options);
-    // const data = response.data;
+    // TODO retrieve product Info by id then send response
 
-    res.status(200).json("data");
+    // res.status(200).json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-export { getProductInfo };
+// export { getGrantToken };

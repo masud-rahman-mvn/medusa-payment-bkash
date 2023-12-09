@@ -23,10 +23,24 @@ const getProductInfo = async (req: any, res: any) => {
     };
 
     const response = await axios(options);
-    const data = response.data;
-    // get product info from database
-    const orderId = req.body;
-    console.log("orderId :>> ", orderId);
+    const { id_token } = response.data;
+
+    // TODO retrieve product Info by id then send response
+    const order_id = req.params.order_id;
+
+    const request = {
+      amount: "85.50",
+      intent: "sale",
+      currency: "BDT",
+      // merchantInvoiceNumber: `${order_id}-${new Date().getTime()}`,
+      merchantInvoiceNumber: `${order_id}`,
+    };
+
+    const data = {
+      id_token,
+      app_key: BKASH_APP_KEY,
+      request,
+    };
     res.status(200).json(data);
   } catch (error) {
     console.error(error);

@@ -1,28 +1,51 @@
 let paymentID;
 
-const username = "sandboxTestUser";
-const password = "hWD@8vtzw0";
-const app_key = "5tunt4masn6pv2hnvte1sb5n3j";
-const app_secret = "1vggbqd4hqk9g96o9rrrp2jftvek578v7d2bnerim12a87dbrrka";
+const productInfoUrl = "http://localhost:9000/checkout/product-info";
+const createCheckoutUrl = "http://localhost:9000/checkout/payment/create";
+const captureCheckoutUrl = "http://localhost:9000/checkout/payment/capture";
 
-const grantTokenUrl = "http://localhost:3000/checkout/token/grant";
-const createCheckoutUrl = "http://localhost:3000/checkout/payment/create";
 const executeCheckoutUrl =
   "https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/execute";
 
 $(document).ready(function () {
-  createPayment();
+  getProductInfo();
 });
 
-async function createPayment() {
-  const body = {
-    app_key: app_key,
-    app_secret: app_secret,
-  };
-
+async function getProductInfo() {
   try {
-    const response = await fetch(grantTokenUrl, {
+    const response = await fetch(`${productInfoUrl}/123124154`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log("result getProductInfo :>> ", result);
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: result.id_token, // Contains access token
+      "X-APP-Key": result.app_key,
+    };
+
+    initBkash(headers, result.request);
+  } catch (error) {
+    console.error("error:", error);
+  }
+}
+
+async function capturePayment(body) {
+  try {
+    const response = await fetch(`${captureCheckoutUrl}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
@@ -31,20 +54,7 @@ async function createPayment() {
 
     const result = await response.json();
 
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: result.id_token, // Contains access token
-      "X-APP-Key": app_key,
-    };
-
-    const request = {
-      amount: "85.50",
-      intent: "sale",
-      currency: "BDT",
-      merchantInvoiceNumber: "123456",
-    };
-
-    initBkash(headers, request);
+    console.log("result capture :>> ", result);
   } catch (error) {
     console.error("error:", error);
   }
@@ -71,6 +81,7 @@ function initBkash(headers, request) {
         })
         .then((data) => {
           console.log("data createRequest:>> ", data);
+
           if (data && data.paymentID !== null) {
             paymentID = data.paymentID;
             bKash.create().onSuccess(data);
@@ -102,16 +113,17 @@ function initBkash(headers, request) {
 
           if (data.transactionStatus !== "Completed") {
             alert(`[ERROR] Fail Payment`);
+            bKash.execute().onError(); // Run clean up code
             throw new Error(`Error: ${data}`);
             // window.location.href = "https://www.example.com/";
-            bKash.execute().onError(); // Run clean up code
           }
 
           if (data && data.paymentID !== null) {
+            capturePayment(data);
             // console.log("data :>> ", data);
             // On success, perform your desired action
-            // alert(`[SUCCESS] Payment`);
-            // window.location.href = "https://www.example.com/";
+            alert(`[SUCCESS] Payment`);
+            window.location.href = "https://www.example.com/";
           }
         })
         .catch((error) => {
