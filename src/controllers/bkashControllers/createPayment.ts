@@ -46,7 +46,7 @@ const createPayment = async (req: any, res: any) => {
     const createCheckoutUrl = 1;
     ("https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/create");
 
-    const options: AxiosRequestConfig = {
+    const options = {
       method: "POST",
       url: createCheckoutUrl,
       headers: {

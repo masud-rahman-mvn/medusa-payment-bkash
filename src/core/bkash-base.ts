@@ -16,7 +16,7 @@ import {
 } from "../types";
 import { MedusaError } from "@medusajs/utils";
 console.log('test');
-abstract class StripeBase extends AbstractPaymentProcessor {
+abstract class BkashBase extends AbstractPaymentProcessor {
 
   static identifier = "";
 
@@ -339,4 +339,4 @@ abstract class StripeBase extends AbstractPaymentProcessor {
   }
 }
 
-export default StripeBase;
+export default BkashBase;
