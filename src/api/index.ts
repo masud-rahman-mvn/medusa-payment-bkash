@@ -7,8 +7,9 @@ import { createPayment } from "../controllers/bkashControllers/createPayment";
 
 import { getProductInfo } from "../controllers/bkashControllers/getProductInfo";
 
-import bodyParser, { json } from "body-parser";
+import bodyParser from "body-parser";
 import { Router } from "express";
+import { capturePayment } from "../controllers/bkashControllers/capturePayment";
 
 export default (rootDirectory: any) => {
   const app = Router();

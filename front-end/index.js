@@ -13,7 +13,7 @@ $(document).ready(function () {
 
 async function getProductInfo() {
   try {
-    const response = await fetch(`${productInfoUrl}/123124154`, {
+    const response = await fetch(`${productInfoUrl}/12345`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -119,7 +119,7 @@ function initBkash(headers, request) {
           }
 
           if (data && data.paymentID !== null) {
-            capturePayment(data);
+            // capturePayment(data);
             // console.log("data :>> ", data);
             // On success, perform your desired action
             alert(`[SUCCESS] Payment`);

@@ -23,10 +23,10 @@ const getProductInfo = async (req: any, res: any) => {
     };
 
     const response = await axios(options);
-    const { id_token } = response.data;
+    const id_token = response.data?.id_token;
 
     // TODO retrieve product Info by id then send response
-    const order_id = req.params.order_id;
+    const order_id = req.params?.order_id;
 
     const request = {
       amount: "85.50",
