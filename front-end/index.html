@@ -31,11 +31,16 @@
 
     async function getProductInfo() {
       try {
-        const response = await fetch(`${productInfoUrl}/12345`, {
+
+        const payload = {order_id:'12345'}
+
+
+        const response = await fetch(`${productInfoUrl}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          body:JSON.stringify(payload)
         });
 
         if (!response.ok) {
@@ -129,20 +134,24 @@
             .then((data) => {
               console.log("data executeRequestOnAuthorization:>> ", data);
 
-              if (data.transactionStatus !== "Completed") {
+              if (data && data.paymentID && data.transactionStatus === "Completed") {
+                // capturePayment(data);
+                // On success, perform your desired action
+                alert(`[SUCCESS] Payment`);
+                // window.location.href = "https://www.example.com/";
+              }else{
+
                 alert(`[ERROR] Fail Payment`);
                 bKash.execute().onError(); // Run clean up code
                 throw new Error(`Error: ${data}`);
                 // window.location.href = "https://www.example.com/";
+
+
               }
 
-              if (data && data.paymentID !== null) {
-                // capturePayment(data);
-                // console.log("data :>> ", data);
-                // On success, perform your desired action
-                alert(`[SUCCESS] Payment`);
-                window.location.href = "https://www.example.com/";
-              }
+
+
+
             })
             .catch((error) => {
               alert("An alert has occurred during execute");

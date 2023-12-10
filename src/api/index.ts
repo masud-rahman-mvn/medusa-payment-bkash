@@ -39,7 +39,7 @@ export default (rootDirectory: any) => {
   //   res.json({ payments });
   // });
 
-  app.post("/checkout/product-info/:order_id", getProductInfo);
+  app.post("/checkout/product-info", getProductInfo);
   app.post("/checkout/payment/create", createPayment);
   app.post("/checkout/payment/capture", capturePayment);
 

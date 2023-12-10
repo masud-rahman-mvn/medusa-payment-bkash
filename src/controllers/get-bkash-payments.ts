@@ -4,7 +4,7 @@ import StripeBase from "../core/stripe-base";
 import { WidgetPayment } from "../types";
 import BkashProviderService from "../services/stripe-provider";
 
-export async function getStripePayments(req): Promise<WidgetPayment[]> {
+export async function getBkashPayments(req): Promise<WidgetPayment[]> {
   const { order_id } = req.params;
 
   const orderService: OrderService = req.scope.resolve("orderService");

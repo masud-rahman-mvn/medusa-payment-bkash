@@ -12,6 +12,11 @@ class BkashPaymentProcessorService extends AbstractPaymentProcessor {
   async capturePayment(
     paymentSessionData: Record<string, unknown>
   ): Promise<Record<string, unknown> | PaymentProcessorError> {
+
+
+
+
+    
     throw new Error("Method not implemented.");
   }
 

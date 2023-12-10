@@ -26,14 +26,17 @@ const getProductInfo = async (req: any, res: any) => {
     const id_token = response.data?.id_token;
 
     // TODO retrieve product Info by id then send response
-    const order_id = req.params?.order_id;
+    // const order_id = req.params?.order_id;
+
+    const order_id = req.body?.order_id;
+    console.log("order_id :>> ", order_id);
 
     const request = {
       amount: "85.50",
       intent: "sale",
       currency: "BDT",
-      // merchantInvoiceNumber: `${order_id}-${new Date().getTime()}`,
-      merchantInvoiceNumber: `${order_id}`,
+      merchantInvoiceNumber: `${order_id}-${new Date().getTime()}`,
+      // merchantInvoiceNumber: `${order_id}`,
     };
 
     const data = {
