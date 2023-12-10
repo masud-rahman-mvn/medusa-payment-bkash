@@ -9,14 +9,34 @@ import {
 class BkashPaymentProcessorService extends AbstractPaymentProcessor {
   static identifier = "bkash";
 
+  constructor(container, options) {
+    super(container);
+    // you can access options here
+  }
+  async initiatePayment(
+    context: PaymentProcessorContext
+  ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
+    console.log("context :>> ", context);
+
+    // throw new Error("Method not implemented.");
+
+    const session_data = {};
+
+    const update_requests = {
+      customer_metadata: {},
+    };
+
+    return {
+      session_data,
+      update_requests,
+    };
+  }
+
+
+  
   async capturePayment(
     paymentSessionData: Record<string, unknown>
   ): Promise<Record<string, unknown> | PaymentProcessorError> {
-
-
-
-
-    
     throw new Error("Method not implemented.");
   }
 
@@ -37,11 +57,7 @@ class BkashPaymentProcessorService extends AbstractPaymentProcessor {
   ): Promise<Record<string, unknown> | PaymentProcessorError> {
     throw new Error("Method not implemented.");
   }
-  async initiatePayment(
-    context: PaymentProcessorContext
-  ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
-    throw new Error("Method not implemented.");
-  }
+
   async deletePayment(
     paymentSessionData: Record<string, unknown>
   ): Promise<Record<string, unknown> | PaymentProcessorError> {

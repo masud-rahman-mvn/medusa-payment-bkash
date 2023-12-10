@@ -7,6 +7,12 @@ const BKASH_APP_SECRET = "1vggbqd4hqk9g96o9rrrp2jftvek578v7d2bnerim12a87dbrrka";
 
 const getProductInfo = async (req: any, res: any) => {
   try {
+    // TODO retrieve product Info by id then send response
+
+
+
+    const order_id = req.params?.order_id;
+
     const grantTokenUrl =
       "https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/token/grant";
 
@@ -25,17 +31,11 @@ const getProductInfo = async (req: any, res: any) => {
     const response = await axios(options);
     const id_token = response.data?.id_token;
 
-    // TODO retrieve product Info by id then send response
-    // const order_id = req.params?.order_id;
-
-    const order_id = req.body?.order_id;
-    console.log("order_id :>> ", order_id);
-
     const request = {
       amount: "85.50",
       intent: "sale",
       currency: "BDT",
-      merchantInvoiceNumber: `${order_id}-${new Date().getTime()}`,
+      merchantInvoiceNumber: `${order_id}`,
       // merchantInvoiceNumber: `${order_id}`,
     };
 

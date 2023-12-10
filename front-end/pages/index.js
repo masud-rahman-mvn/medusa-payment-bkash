@@ -11,7 +11,6 @@ $(document).ready(function () {
   getProductInfo();
 });
 
-
 async function getProductInfo() {
   try {
     const response = await fetch(`${productInfoUrl}/12345`, {

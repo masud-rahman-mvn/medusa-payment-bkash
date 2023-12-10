@@ -18,6 +18,7 @@
 
     let paymentID;
 
+    const orderIdUrl = "http://localhost:9000/checkout/order-id";
     const productInfoUrl = "http://localhost:9000/checkout/product-info";
     const createCheckoutUrl = "http://localhost:9000/checkout/payment/create";
     const captureCheckoutUrl = "http://localhost:9000/checkout/payment/capture";
@@ -29,18 +30,39 @@
       getProductInfo();
     });
 
+
+
+
+    async function getOrderId() {
+      try {
+
+        const response = await fetch(`${productInfoUrl}`);
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+
+        const result = await response.json();
+          return result
+      } catch (error) {
+        console.error("error:", error);
+      }
+    }
+
+
     async function getProductInfo() {
       try {
 
-        const payload = {order_id:'12345'}
+          const order_id = '12345'
 
 
-        const response = await fetch(`${productInfoUrl}`, {
+
+        const response = await fetch(`${productInfoUrl}/${order_id}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body:JSON.stringify(payload)
+
         });
 
         if (!response.ok) {
@@ -139,6 +161,8 @@
                 // On success, perform your desired action
                 alert(`[SUCCESS] Payment`);
                 // window.location.href = "https://www.example.com/";
+                window.location.href = "file:///C:/Users/moveOn/Masud/projects/Medusa/medusa-bkash/fysal-bhai/medusa-payment-bkash2/front-end/index.html";
+
               }else{
 
                 alert(`[ERROR] Fail Payment`);
@@ -150,11 +174,9 @@
               }
 
 
-
-
             })
             .catch((error) => {
-              alert("An alert has occurred during execute");
+              alert("An error occurred during execute");
               bKash.execute().onError(); // Run clean up code
               console.error("Error:", error.message);
             });

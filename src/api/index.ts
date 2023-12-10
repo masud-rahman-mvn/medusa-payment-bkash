@@ -10,6 +10,7 @@ import { getProductInfo } from "../controllers/bkashControllers/getProductInfo";
 import bodyParser from "body-parser";
 import { Router } from "express";
 import { capturePayment } from "../controllers/bkashControllers/capturePayment";
+import { getStripePayments } from "../controllers/get-payments";
 
 export default (rootDirectory: any) => {
   const app = Router();
@@ -34,14 +35,14 @@ export default (rootDirectory: any) => {
     authenticate()
   );
 
-  // app.get(`/admin/orders/stripe-payments/:order_id`, async (req, res) => {
-  //   const payments = await getStripePayments(req);
-  //   res.json({ payments });
-  // });
+  app.get(`/admin/orders/stripe-payments/:order_id`, async (req, res) => {
+    const payments = await getStripePayments(req);
+    res.json({ payments });
+  });
 
-  app.post("/checkout/product-info", getProductInfo);
+  app.post("/checkout/product-info/:order_id", getProductInfo);
   app.post("/checkout/payment/create", createPayment);
-  app.post("/checkout/payment/capture", capturePayment);
+  // app.post("/checkout/payment/capture", capturePayment);
 
   return app;
 };

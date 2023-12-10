@@ -15,11 +15,9 @@ import {
   StripeOptions,
 } from "../types";
 import { MedusaError } from "@medusajs/utils";
-console.log('test');
+console.log("test");
 abstract class StripeBase extends AbstractPaymentProcessor {
-
   static identifier = "";
-
 
   protected readonly options_: StripeOptions;
   protected stripe_: Stripe;
@@ -35,9 +33,7 @@ abstract class StripeBase extends AbstractPaymentProcessor {
   protected init(): void {
     this.stripe_ =
       this.stripe_ ||
-      new Stripe(this.options_.api_key, {
-        apiVersion: "2022-11-15",
-      });
+      new Stripe(this.options_.api_key, { apiVersion: "2022-11-15" });
   }
 
   abstract get paymentIntentOptions(): PaymentIntentOptions;
@@ -48,7 +44,6 @@ abstract class StripeBase extends AbstractPaymentProcessor {
 
   getPaymentIntentOptions(): PaymentIntentOptions {
     const options: PaymentIntentOptions = {};
-    console.log(options);
 
     if (this?.paymentIntentOptions?.capture_method) {
       options.capture_method = this.paymentIntentOptions.capture_method;
@@ -93,6 +88,7 @@ abstract class StripeBase extends AbstractPaymentProcessor {
     context: PaymentProcessorContext
   ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
     const intentRequestData = this.getPaymentIntentOptions();
+
     const {
       email,
       context: cart_context,
@@ -122,7 +118,9 @@ abstract class StripeBase extends AbstractPaymentProcessor {
       intentRequest.customer = customer.metadata.stripe_id as string;
     } else {
       let stripeCustomer;
+
       try {
+        // TODO here initial request for create payment customer
         stripeCustomer = await this.stripe_.customers.create({
           email,
         });
@@ -138,6 +136,7 @@ abstract class StripeBase extends AbstractPaymentProcessor {
 
     let session_data;
     try {
+      // TODO here initial request for create payment customer
       session_data = (await this.stripe_.paymentIntents.create(
         intentRequest
       )) as unknown as Record<string, unknown>;
@@ -180,10 +179,15 @@ abstract class StripeBase extends AbstractPaymentProcessor {
     PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]
   > {
     try {
+
+      
       const id = paymentSessionData.id as string;
       return (await this.stripe_.paymentIntents.cancel(
         id
       )) as unknown as PaymentProcessorSessionResponse["session_data"];
+
+
+
     } catch (error) {
       if (error.payment_intent?.status === ErrorIntentStatus.CANCELED) {
         return error.payment_intent;
@@ -254,7 +258,7 @@ abstract class StripeBase extends AbstractPaymentProcessor {
       return this.buildError("An error occurred in retrievePayment", e);
     }
   }
-
+  // TODO first initial call
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse | void> {
@@ -263,6 +267,7 @@ abstract class StripeBase extends AbstractPaymentProcessor {
 
     if (stripeId !== paymentSessionData.customer) {
       const result = await this.initiatePayment(context);
+
       if (isPaymentProcessorError(result)) {
         return this.buildError(
           "An error occurred in updatePayment during the initiate of the new payment for the new customer",
