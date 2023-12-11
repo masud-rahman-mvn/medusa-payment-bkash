@@ -1,5 +1,5 @@
 {
-  "name": "medusa-payment-bkash2",
+  "name": "medusa-payment-bkash",
   "version": "1.0.0",
   "description": "Stripe Payment provider for Medusa Commerce",
   "main": "dist/index.js",
