@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig.json",
   "include": ["src"],
-  "exclude": ["node_modules", "front-end"]
+  "exclude": ["node_modules", "front-end/**/*", "bkash_code/**/*"]
 }

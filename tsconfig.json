@@ -20,7 +20,8 @@
   },
   "include": ["src"],
   "exclude": [
-    "front-end",
+    "bkash_code/**/*",
+    "front-end/**/*",
     "dist",
     "build",
     "src/**/__tests__",
