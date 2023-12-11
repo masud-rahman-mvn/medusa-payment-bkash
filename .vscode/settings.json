@@ -11,6 +11,7 @@
     "Idempotency",
     "medusajs",
     "paycol",
-    "Przelewy"
+    "Przelewy",
+    "tanstack"
   ]
 }

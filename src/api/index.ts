@@ -2,10 +2,6 @@ import { authenticate } from "@medusajs/medusa";
 import { ConfigModule } from "@medusajs/types";
 import getConfigFile from "@medusajs/utils/dist/common/get-config-file";
 import cors from "cors";
-import hooks from "./hooks";
-import { createPayment } from "../controllers/bkashControllers/createPayment";
-
-import { getProductInfo } from "../controllers/bkashControllers/getProductInfo";
 
 import bodyParser from "body-parser";
 import { Router } from "express";
@@ -14,8 +10,6 @@ export default (rootDirectory: any) => {
   const app = Router();
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
-
-  hooks(app);
 
   const { configModule } = getConfigFile<ConfigModule>(
     rootDirectory,
@@ -35,7 +29,6 @@ export default (rootDirectory: any) => {
 
   app.get(`/admin/orders/stripe-payments/:order_id`, async (req, res) => {
     // const payments = await getStripePayments(req);
-    // res.json({ payments });
     // res.json({ payments });
   });
 
