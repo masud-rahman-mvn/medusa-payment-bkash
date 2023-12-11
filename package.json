@@ -1,5 +1,5 @@
 {
-  "name": "medusa-payment-sslcommerz",
+  "name": "medusa-payment-bkash",
   "version": "6.0.6",
   "description": "Stripe Payment provider for Medusa Commerce",
   "main": "dist/index.js",
