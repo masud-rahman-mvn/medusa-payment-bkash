@@ -3,5 +3,5 @@
   "compilerOptions": {
     "inlineSourceMap": true /* Emit a single file with source maps instead of having a separate file. */
   },
-  "exclude": ["src/admin", "**/*.spec.js"]
+  "exclude": ["src/admin", "**/*.spec.js", "front-end/**/*"]
 }

@@ -28,7 +28,7 @@ const createPayment: RequestHandler = async (req, res) => {
     const createCheckoutUrl =
       "https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/create";
 
-    const options = {
+    const options: AxiosRequestConfig = {
       method: "POST",
       url: createCheckoutUrl,
       headers: {
@@ -39,7 +39,7 @@ const createPayment: RequestHandler = async (req, res) => {
       },
       data: request,
     };
-    console.log("options :>> ", options);
+
     const response = await axios(options);
 
     res.status(response.status).json(response.data);

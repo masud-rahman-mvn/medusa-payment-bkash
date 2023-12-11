@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "es5",
-      "es6",
-      "es2019"
-    ],
+    "lib": ["es5", "es6", "es2019"],
     "target": "es5",
     "jsx": "react-jsx" /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */,
     "outDir": "./dist",
@@ -24,6 +20,7 @@
   },
   "include": ["src"],
   "exclude": [
+    "front-end/**/*",
     "dist",
     "build",
     "src/**/__tests__",

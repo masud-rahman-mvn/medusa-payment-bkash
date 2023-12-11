@@ -9,7 +9,7 @@ import {
 class BkashPaymentProcessorService extends AbstractPaymentProcessor {
   static identifier = "bkash";
 
-  constructor(container, options) {
+  constructor(container) {
     super(container);
     // you can access options here
   }
