@@ -1,4 +1,4 @@
-import BkashBase from "../core/bkash-base";
+import BkashBase from "../core/stripe-base";
 import { PaymentIntentOptions, PaymentProviderKeys } from "../types";
 
 class GiropayProviderService extends BkashBase {
