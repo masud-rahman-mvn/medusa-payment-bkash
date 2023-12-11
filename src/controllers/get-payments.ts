@@ -1,13 +1,14 @@
 import { OrderService } from "@medusajs/medusa";
 import Stripe from "stripe";
-import BkashBase from "../core/bkash-base";
+
 import { WidgetPayment } from "../types";
+import StripeBase from "../core/stripe-base";
 
 export async function getStripePayments(req): Promise<WidgetPayment[]> {
   const { order_id } = req.params;
 
   const orderService: OrderService = req.scope.resolve("orderService");
-  const stripeBase: BkashBase = req.scope.resolve("stripeProviderService");
+  const stripeBase: StripeBase = req.scope.resolve("stripeProviderService");
 
   const order = await orderService.retrieve(order_id, {
     relations: ["payments", "swaps", "swaps.payment", "region"],

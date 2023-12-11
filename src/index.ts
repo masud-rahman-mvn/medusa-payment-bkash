@@ -1,5 +1,5 @@
 export * from "./types";
-export * from "./core/bkash-base";
+export * from "./services/bkash-payment-processor";
 export * from "./services/stripe-blik";
 export * from "./services/stripe-bancontact";
 export * from "./services/stripe-giropay";

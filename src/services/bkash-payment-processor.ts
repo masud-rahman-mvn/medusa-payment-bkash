@@ -6,7 +6,7 @@ import {
   PaymentSessionStatus,
 } from "@medusajs/medusa";
 
-class BkashBase extends AbstractPaymentProcessor {
+class BkashPaymentProcessor extends AbstractPaymentProcessor {
   static identifier = "bkash";
   constructor(container, options) {
     super(container, options);
@@ -76,4 +76,4 @@ class BkashBase extends AbstractPaymentProcessor {
   }
 }
 
-export default BkashBase;
+export default BkashPaymentProcessor;
