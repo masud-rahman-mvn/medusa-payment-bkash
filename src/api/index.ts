@@ -23,9 +23,11 @@ export default (rootDirectory) => {
     authenticate()
   );
   app.get(`/admin/orders/stripe-payments/:order_id`, async (req, res) => {
-    // res.json({ payments })
+    res.json({ message: "test" });
   });
-  app.get(`/test`, async (req, res) => {
+
+  
+  app.get(`/admin/test`, async (req, res) => {
     console.log("test");
     res.json({ message: "test" });
   });
