@@ -4,14 +4,20 @@ import {
   PaymentProcessorError,
   PaymentProcessorSessionResponse,
   PaymentSessionStatus,
+  ProductService,
+  ConfigModule,
+  Logger,
+  MedusaContainer,
 } from "@medusajs/medusa";
 
 class BkashPaymentProcessor extends AbstractPaymentProcessor {
   static identifier = "bkash";
+
+
   constructor(container, options) {
     super(container, options);
-    // you can access options here
   }
+
   async capturePayment(
     paymentSessionData: Record<string, unknown>
   ): Promise<Record<string, unknown> | PaymentProcessorError> {
@@ -39,8 +45,21 @@ class BkashPaymentProcessor extends AbstractPaymentProcessor {
   ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
     // TODO initiatePayment call when user select bkash payment provider
     console.log("context :>> ", context);
+    // you can access options here
 
-    throw new Error("Method not implemented.");
+
+    return {
+      update_requests: {
+        customer_metadata: {
+          loyalty_points: 50,
+          membership_level: "Gold",
+        },
+      },
+      session_data: {
+        status: "active",
+        expires_at: "2023-12-31T23:59:59Z",
+      },
+    };
   }
   async deletePayment(
     paymentSessionData: Record<string, unknown>
