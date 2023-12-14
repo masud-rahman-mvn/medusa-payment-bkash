@@ -1,6 +1,6 @@
 import { Region } from "@medusajs/medusa";
 
-export interface StripeOptions {
+export interface BkashOptions {
   api_key: string;
   webhook_secret: string;
   /**
@@ -33,8 +33,7 @@ export const ErrorIntentStatus = {
 };
 
 export const PaymentProviderKeys = {
-  BKASH: "stripe2",
-  STRIPE: "stripe2",
+  BKASH: "bkash",
 };
 
 export type WidgetPayment = {
@@ -47,6 +46,19 @@ export type WidgetPayment = {
   type: "order" | "swap";
 };
 
-export type ListStripeIntentRes = {
+export type ListBkashIntentRes = {
   payments: WidgetPayment[];
 };
+
+export interface IRequestPayload {
+  amount: string;
+  intent: "sale";
+  currency: "BDT";
+  merchantInvoiceNumber: string;
+}
+
+export interface IProductInfo {
+  id_token: string;
+  app_key: string;
+  request: IRequestPayload;
+}

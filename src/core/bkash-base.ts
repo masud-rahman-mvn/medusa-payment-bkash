@@ -5,29 +5,169 @@ import {
   PaymentProcessorError,
   PaymentProcessorSessionResponse,
   PaymentSessionStatus,
-} from "@medusajs/medusa"
-import { EOL } from "os"
-import Stripe from "stripe"
+} from "@medusajs/medusa";
+import { EOL } from "os";
+import Stripe from "stripe";
 import {
   ErrorCodes,
   ErrorIntentStatus,
   PaymentIntentOptions,
   StripeOptions,
-} from "../types"
-import { MedusaError } from "@medusajs/utils"
+} from "../types";
+import { MedusaError } from "@medusajs/utils";
+
+import axios, { AxiosRequestConfig } from "axios";
+import { IProductInfo, IRequestPayload } from "src/bkash-types";
+
+const BKASH_USERNAME = "sandboxTestUser";
+const BKASH_PASSWORD = "hWD@8vtzw0";
+const BKASH_APP_KEY = "5tunt4masn6pv2hnvte1sb5n3j";
+const BKASH_APP_SECRET = "1vggbqd4hqk9g96o9rrrp2jftvek578v7d2bnerim12a87dbrrka";
+
+class Bkash {
+  protected id_token: string;
+  protected refresh_token: string;
+
+  constructor() {}
+
+  /**
+   * getToken
+   */
+  public async getGrantToken() {
+    try {
+      const grantTokenUrl =
+        "https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/token/grant";
+      const options: AxiosRequestConfig = {
+        method: "POST",
+        url: grantTokenUrl,
+        headers: {
+          accept: "application/json",
+          username: BKASH_USERNAME,
+          password: BKASH_PASSWORD,
+          "content-type": "application/json",
+        },
+        data: { app_key: BKASH_APP_KEY, app_secret: BKASH_APP_SECRET },
+      };
+
+      const response = await axios(options);
+      this.id_token = response.data?.id_token;
+      this.refresh_token = response.data?.refresh_token;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  /**
+   * getToken
+   */
+  public async getToken() {
+    try {
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /**
+   * getNewToken using refresh token
+   */
+  public getNewToken() {}
+
+  /**
+   * executePayment
+   */
+  public async executePayment(paymentID: string, id_token: string) {
+    try {
+      const options: AxiosRequestConfig = {
+        method: "POST",
+        url: `https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/execute/${paymentID}`,
+        headers: {
+          accept: "application/json",
+          Authorization: id_token, // Assuming id_token is the correct header value
+          "X-APP-Key": BKASH_APP_KEY, // Assuming app_key is the correct header value
+          "content-type": "application/json",
+        },
+        data: { paymentID },
+      };
+
+      const response = await axios(options);
+      // res.status(response.status).json(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /**
+   *  
+    const request = {
+      amount: "85.50",
+      intent: "sale",
+      currency: "BDT",
+      merchantInvoiceNumber: `${order_id}`, //order_id or cart_id give for send request
+    };
+   * createPayment
+   */
+  public async createPayment(request: IRequestPayload) {
+    try {
+      const createCheckoutUrl =
+        "https://checkout.sandbox.bka.sh/v1.2.0-beta/checkout/payment/create";
+
+      const options: AxiosRequestConfig = {
+        method: "POST",
+        url: createCheckoutUrl,
+        headers: {
+          accept: "application/json",
+          Authorization: this.id_token,
+          "X-APP-Key": BKASH_APP_KEY,
+          "content-type": "application/json",
+        },
+        data: request,
+      };
+
+      const response = await axios(options);
+
+      return response.data;
+
+      // res.status(response.status).json(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  /**
+   * getPaymentInfo
+   */
+  public getPaymentInfo(merchantInvoiceNumber: string) {
+    // TODO query product info from database
+
+    const item: IRequestPayload = {
+      amount: "85.50",
+      intent: "sale",
+      currency: "BDT",
+      merchantInvoiceNumber: `12345`, //order_id or cart_id give for send request
+    };
+    const requestPayload = this.createPayment(item);
+
+    const data: IProductInfo = {
+      id_token: this.id_token,
+      app_key: BKASH_APP_KEY,
+      request: requestPayload as any,
+    };
+
+    // res.status(200).json(data);
+  }
+}
 
 abstract class BkashBase extends AbstractPaymentProcessor {
-  static identifier = ""
+  static identifier = "";
 
-  protected readonly options_: StripeOptions
-  protected stripe_: Stripe
+  protected readonly options_: StripeOptions;
+  protected stripe_: Stripe;
 
   protected constructor(_, options) {
-    super(_, options)
+    super(_, options);
 
-    this.options_ = options
+    this.options_ = options;
 
-    this.init()
+    this.init();
   }
 
   protected init(): void {
@@ -35,61 +175,61 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       this.stripe_ ||
       new Stripe(this.options_.api_key, {
         apiVersion: "2022-11-15",
-      })
+      });
   }
 
-  abstract get paymentIntentOptions(): PaymentIntentOptions
+  abstract get paymentIntentOptions(): PaymentIntentOptions;
 
   getStripe() {
-    return this.stripe_
+    return this.stripe_;
   }
 
   getPaymentIntentOptions(): PaymentIntentOptions {
-    const options: PaymentIntentOptions = {}
+    const options: PaymentIntentOptions = {};
 
     if (this?.paymentIntentOptions?.capture_method) {
-      options.capture_method = this.paymentIntentOptions.capture_method
+      options.capture_method = this.paymentIntentOptions.capture_method;
     }
 
     if (this?.paymentIntentOptions?.setup_future_usage) {
-      options.setup_future_usage = this.paymentIntentOptions.setup_future_usage
+      options.setup_future_usage = this.paymentIntentOptions.setup_future_usage;
     }
 
     if (this?.paymentIntentOptions?.payment_method_types) {
       options.payment_method_types =
-        this.paymentIntentOptions.payment_method_types
+        this.paymentIntentOptions.payment_method_types;
     }
 
-    return options
+    return options;
   }
 
   async getPaymentStatus(
     paymentSessionData: Record<string, unknown>
   ): Promise<PaymentSessionStatus> {
-    const id = paymentSessionData.id as string
-    const paymentIntent = await this.stripe_.paymentIntents.retrieve(id)
+    const id = paymentSessionData.id as string;
+    const paymentIntent = await this.stripe_.paymentIntents.retrieve(id);
 
     switch (paymentIntent.status) {
       case "requires_payment_method":
       case "requires_confirmation":
       case "processing":
-        return PaymentSessionStatus.PENDING
+        return PaymentSessionStatus.PENDING;
       case "requires_action":
-        return PaymentSessionStatus.REQUIRES_MORE
+        return PaymentSessionStatus.REQUIRES_MORE;
       case "canceled":
-        return PaymentSessionStatus.CANCELED
+        return PaymentSessionStatus.CANCELED;
       case "requires_capture":
       case "succeeded":
-        return PaymentSessionStatus.AUTHORIZED
+        return PaymentSessionStatus.AUTHORIZED;
       default:
-        return PaymentSessionStatus.PENDING
+        return PaymentSessionStatus.PENDING;
     }
   }
 
   async initiatePayment(
     context: PaymentProcessorContext
   ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
-    const intentRequestData = this.getPaymentIntentOptions()
+    const intentRequestData = this.getPaymentIntentOptions();
     const {
       email,
       context: cart_context,
@@ -97,10 +237,10 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       amount,
       resource_id,
       customer,
-    } = context
+    } = context;
 
     const description = (cart_context.payment_description ??
-      this.options_?.payment_description) as string
+      this.options_?.payment_description) as string;
 
     const intentRequest: Stripe.PaymentIntentCreateParams = {
       description,
@@ -109,40 +249,40 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       metadata: { resource_id },
       capture_method: this.options_.capture ? "automatic" : "manual",
       ...intentRequestData,
-    }
+    };
 
     if (this.options_?.automatic_payment_methods) {
-      intentRequest.automatic_payment_methods = { enabled: true }
+      intentRequest.automatic_payment_methods = { enabled: true };
     }
 
     if (customer?.metadata?.stripe_id) {
-      intentRequest.customer = customer.metadata.stripe_id as string
+      intentRequest.customer = customer.metadata.stripe_id as string;
     } else {
-      let stripeCustomer
+      let stripeCustomer;
       try {
         stripeCustomer = await this.stripe_.customers.create({
           email,
-        })
+        });
       } catch (e) {
         return this.buildError(
           "An error occurred in initiatePayment when creating a Stripe customer",
           e
-        )
+        );
       }
 
-      intentRequest.customer = stripeCustomer.id
+      intentRequest.customer = stripeCustomer.id;
     }
 
-    let session_data
+    let session_data;
     try {
       session_data = (await this.stripe_.paymentIntents.create(
         intentRequest
-      )) as unknown as Record<string, unknown>
+      )) as unknown as Record<string, unknown>;
     } catch (e) {
       return this.buildError(
         "An error occurred in InitiatePayment during the creation of the stripe payment intent",
         e
-      )
+      );
     }
 
     return {
@@ -154,7 +294,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
               stripe_id: intentRequest.customer,
             },
           },
-    }
+    };
   }
 
   async authorizePayment(
@@ -163,12 +303,12 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   ): Promise<
     | PaymentProcessorError
     | {
-        status: PaymentSessionStatus
-        data: PaymentProcessorSessionResponse["session_data"]
+        status: PaymentSessionStatus;
+        data: PaymentProcessorSessionResponse["session_data"];
       }
   > {
-    const status = await this.getPaymentStatus(paymentSessionData)
-    return { data: paymentSessionData, status }
+    const status = await this.getPaymentStatus(paymentSessionData);
+    return { data: paymentSessionData, status };
   }
 
   async cancelPayment(
@@ -177,16 +317,16 @@ abstract class BkashBase extends AbstractPaymentProcessor {
     PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]
   > {
     try {
-      const id = paymentSessionData.id as string
+      const id = paymentSessionData.id as string;
       return (await this.stripe_.paymentIntents.cancel(
         id
-      )) as unknown as PaymentProcessorSessionResponse["session_data"]
+      )) as unknown as PaymentProcessorSessionResponse["session_data"];
     } catch (error) {
       if (error.payment_intent?.status === ErrorIntentStatus.CANCELED) {
-        return error.payment_intent
+        return error.payment_intent;
       }
 
-      return this.buildError("An error occurred in cancelPayment", error)
+      return this.buildError("An error occurred in cancelPayment", error);
     }
   }
 
@@ -195,18 +335,18 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   ): Promise<
     PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]
   > {
-    const id = paymentSessionData.id as string
+    const id = paymentSessionData.id as string;
     try {
-      const intent = await this.stripe_.paymentIntents.capture(id)
-      return intent as unknown as PaymentProcessorSessionResponse["session_data"]
+      const intent = await this.stripe_.paymentIntents.capture(id);
+      return intent as unknown as PaymentProcessorSessionResponse["session_data"];
     } catch (error) {
       if (error.code === ErrorCodes.PAYMENT_INTENT_UNEXPECTED_STATE) {
         if (error.payment_intent?.status === ErrorIntentStatus.SUCCEEDED) {
-          return error.payment_intent
+          return error.payment_intent;
         }
       }
 
-      return this.buildError("An error occurred in capturePayment", error)
+      return this.buildError("An error occurred in capturePayment", error);
     }
   }
 
@@ -215,7 +355,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   ): Promise<
     PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]
   > {
-    return await this.cancelPayment(paymentSessionData)
+    return await this.cancelPayment(paymentSessionData);
   }
 
   async refundPayment(
@@ -224,18 +364,18 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   ): Promise<
     PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]
   > {
-    const id = paymentSessionData.id as string
+    const id = paymentSessionData.id as string;
 
     try {
       await this.stripe_.refunds.create({
         amount: Math.round(refundAmount),
         payment_intent: id as string,
-      })
+      });
     } catch (e) {
-      return this.buildError("An error occurred in refundPayment", e)
+      return this.buildError("An error occurred in refundPayment", e);
     }
 
-    return paymentSessionData
+    return paymentSessionData;
   }
 
   async retrievePayment(
@@ -244,44 +384,44 @@ abstract class BkashBase extends AbstractPaymentProcessor {
     PaymentProcessorError | PaymentProcessorSessionResponse["session_data"]
   > {
     try {
-      const id = paymentSessionData.id as string
-      const intent = await this.stripe_.paymentIntents.retrieve(id)
-      return intent as unknown as PaymentProcessorSessionResponse["session_data"]
+      const id = paymentSessionData.id as string;
+      const intent = await this.stripe_.paymentIntents.retrieve(id);
+      return intent as unknown as PaymentProcessorSessionResponse["session_data"];
     } catch (e) {
-      return this.buildError("An error occurred in retrievePayment", e)
+      return this.buildError("An error occurred in retrievePayment", e);
     }
   }
 
   async updatePayment(
     context: PaymentProcessorContext
   ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse | void> {
-    const { amount, customer, paymentSessionData } = context
-    const stripeId = customer?.metadata?.stripe_id
+    const { amount, customer, paymentSessionData } = context;
+    const stripeId = customer?.metadata?.stripe_id;
 
     if (stripeId !== paymentSessionData.customer) {
-      const result = await this.initiatePayment(context)
+      const result = await this.initiatePayment(context);
       if (isPaymentProcessorError(result)) {
         return this.buildError(
           "An error occurred in updatePayment during the initiate of the new payment for the new customer",
           result
-        )
+        );
       }
 
-      return result
+      return result;
     } else {
       if (amount && paymentSessionData.amount === Math.round(amount)) {
-        return
+        return;
       }
 
       try {
-        const id = paymentSessionData.id as string
+        const id = paymentSessionData.id as string;
         const sessionData = (await this.stripe_.paymentIntents.update(id, {
           amount: Math.round(amount),
-        })) as unknown as PaymentProcessorSessionResponse["session_data"]
+        })) as unknown as PaymentProcessorSessionResponse["session_data"];
 
-        return { session_data: sessionData }
+        return { session_data: sessionData };
       } catch (e) {
-        return this.buildError("An error occurred in updatePayment", e)
+        return this.buildError("An error occurred in updatePayment", e);
       }
     }
   }
@@ -294,14 +434,14 @@ abstract class BkashBase extends AbstractPaymentProcessor {
         throw new MedusaError(
           MedusaError.Types.INVALID_DATA,
           "Cannot update amount, use updatePayment instead"
-        )
+        );
       }
 
       return (await this.stripe_.paymentIntents.update(sessionId, {
         ...data,
-      })) as unknown as PaymentProcessorSessionResponse["session_data"]
+      })) as unknown as PaymentProcessorSessionResponse["session_data"];
     } catch (e) {
-      return this.buildError("An error occurred in updatePaymentData", e)
+      return this.buildError("An error occurred in updatePaymentData", e);
     }
   }
 
@@ -317,7 +457,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       data,
       signature,
       this.options_.webhook_secret
-    )
+    );
   }
 
   protected buildError(
@@ -332,8 +472,8 @@ abstract class BkashBase extends AbstractPaymentProcessor {
         : "detail" in e
         ? e.detail
         : e.message ?? "",
-    }
+    };
   }
 }
 
-export default BkashBase
+export default BkashBase;
