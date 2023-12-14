@@ -3,6 +3,6 @@
   "compilerOptions": {
     "module": "esnext"
   },
-  "include": ["src/**/*"],
+  "include": ["src/admin"],
   "exclude": ["**/*.spec.js"]
 }

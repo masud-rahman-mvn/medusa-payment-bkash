@@ -33,12 +33,12 @@ export const ErrorIntentStatus = {
 }
 
 export const PaymentProviderKeys = {
-  STRIPE: "stripe",
-  BAN_CONTACT: "stripe-bancontact",
-  BLIK: "stripe-blik",
-  GIROPAY: "stripe-giropay",
-  IDEAL: "stripe-ideal",
-  PRZELEWY_24: "stripe-przelewy24",
+  STRIPE: "stripe2",
+  BAN_CONTACT: "stripe2-bancontact",
+  BLIK: "stripe2-blik",
+  GIROPAY: "stripe2-giropay",
+  IDEAL: "stripe2-ideal",
+  PRZELEWY_24: "stripe2-przelewy24",
 }
 
 export type WidgetPayment = {
