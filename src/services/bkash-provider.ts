@@ -1,19 +1,16 @@
 import StripeBase from "../core/stripe-base"
 import { PaymentIntentOptions, PaymentProviderKeys } from "../types"
 
-class IdealProviderService extends StripeBase {
-  static identifier = PaymentProviderKeys.IDEAL
+class StripeProviderService extends StripeBase {
+  static identifier = PaymentProviderKeys.STRIPE
 
   constructor(_, options) {
     super(_, options)
   }
 
   get paymentIntentOptions(): PaymentIntentOptions {
-    return {
-      payment_method_types: ["ideal"],
-      capture_method: "automatic",
-    }
+    return {}
   }
 }
 
-export default IdealProviderService
+export default StripeProviderService
