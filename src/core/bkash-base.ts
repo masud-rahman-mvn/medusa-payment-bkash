@@ -16,9 +16,9 @@ import {
 } from "../types";
 import { MedusaError } from "@medusajs/utils";
 
-import axios, { AxiosRequestConfig } from "axios";
 import { IProductInfo, IRequestPayload } from "src/bkash-types";
 
+import axios, { AxiosRequestConfig } from "axios";
 const BKASH_USERNAME = "sandboxTestUser";
 const BKASH_PASSWORD = "hWD@8vtzw0";
 const BKASH_APP_KEY = "5tunt4masn6pv2hnvte1sb5n3j";
