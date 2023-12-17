@@ -8,7 +8,12 @@ import {
 } from "@medusajs/medusa";
 import { EOL } from "os";
 import Stripe from "stripe";
-import { ErrorCodes, ErrorIntentStatus, BkashOptions } from "../types";
+import {
+  ErrorCodes,
+  ErrorIntentStatus,
+  BkashOptions,
+  PaymentCreateResponse,
+} from "../types";
 import { MedusaError } from "@medusajs/utils";
 import BkashGateway from "src/bkash";
 
@@ -66,10 +71,10 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       customer,
       paymentSessionData,
     } = context;
-
+    let paymentCreateResponse: PaymentCreateResponse;
     try {
       // check bkash response here and store paymentID to Database if needed
-      const paymentCreateResponse = await this.bkash.createPayment({
+      paymentCreateResponse = await this.bkash.createPayment({
         amount: amount,
         orderID: "ORD1020069", // TODO orderId or cartId give here
         intent: "sale",
@@ -85,7 +90,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       session_data: paymentCreateResponse,
       update_requests: {
         customer_metadata: {
-          stripe_id: session_data.customer,
+          bkash_id: "session_data.customer", //TODO update here
         },
       },
     };

@@ -49,3 +49,15 @@ export type WidgetPayment = {
 export type ListStripeIntentRes = {
   payments: WidgetPayment[];
 };
+
+export type PaymentCreateResponse = {
+  paymentID: string;
+  createTime: string;
+  orgLogo: string;
+  orgName: string;
+  transactionStatus: string;
+  amount: string;
+  currency: string;
+  intent: string;
+  merchantInvoiceNumber: string;
+};
