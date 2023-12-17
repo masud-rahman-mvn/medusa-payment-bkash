@@ -23,8 +23,8 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   protected readonly options_: BkashOptions;
   protected bkash: BkashGateway;
 
-  protected constructor(_, options) {
-    super(_, options);
+  protected constructor(container, options) {
+    super(container, options);
 
     this.options_ = options;
 

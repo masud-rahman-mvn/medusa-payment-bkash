@@ -4,8 +4,8 @@ import { PaymentIntentOptions, PaymentProviderKeys } from "../types";
 class StripeProviderService extends BkashBase {
   static identifier = PaymentProviderKeys.BKASH;
 
-  constructor(_, options) {
-    super(_, options);
+  constructor(container, options) {
+    super(container, options);
   }
 
   get paymentIntentOptions(): PaymentIntentOptions {
