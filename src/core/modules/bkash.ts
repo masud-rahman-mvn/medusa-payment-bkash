@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
-import BkashGateway from "..";
-import { IBkashConstructor } from "../interfaces/main.interface";
+import BkashGateway from "../../bkash/src";
+import { IBkashConstructor } from "../../bkash/src/interfaces/main.interface";
 
 const bkash = new BkashGateway({
   baseURL: process.env.BKASH_BASEURL,

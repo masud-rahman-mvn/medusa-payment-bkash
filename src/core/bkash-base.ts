@@ -12,15 +12,16 @@ import {
   ErrorCodes,
   ErrorIntentStatus,
   PaymentIntentOptions,
-  StripeOptions,
+  BkashOptions,
 } from "../types";
 import { MedusaError } from "@medusajs/utils";
+import BkashGateway from "src/bkash/src";
 
 abstract class BkashBase extends AbstractPaymentProcessor {
   static identifier = "";
 
-  protected readonly options_: StripeOptions;
-  protected stripe_: Stripe;
+  protected readonly options_: BkashOptions;
+  protected bkash: BkashGateway;
 
   protected constructor(_, options) {
     super(_, options);
@@ -31,43 +32,21 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   }
 
   protected init(): void {
-    this.stripe_ =
-      this.stripe_ ||
-      new Stripe(this.options_.api_key, {
-        apiVersion: "2022-11-15",
-      });
-  }
-
-  abstract get paymentIntentOptions(): PaymentIntentOptions;
-
-  getStripe() {
-    return this.stripe_;
-  }
-
-  getPaymentIntentOptions(): PaymentIntentOptions {
-    const options: PaymentIntentOptions = {};
-
-    if (this?.paymentIntentOptions?.capture_method) {
-      options.capture_method = this.paymentIntentOptions.capture_method;
-    }
-
-    if (this?.paymentIntentOptions?.setup_future_usage) {
-      options.setup_future_usage = this.paymentIntentOptions.setup_future_usage;
-    }
-
-    if (this?.paymentIntentOptions?.payment_method_types) {
-      options.payment_method_types =
-        this.paymentIntentOptions.payment_method_types;
-    }
-
-    return options;
+    this.bkash = new BkashGateway({
+      baseURL: process.env.BKASH_BASEURL,
+      key: process.env.BKASH_API_KEY,
+      secret: process.env.BKASH_API_SECRET,
+      username: process.env.BKASH_USERNAME,
+      password: process.env.BKASH_PASSWORD,
+    });
   }
 
   async getPaymentStatus(
     paymentSessionData: Record<string, unknown>
   ): Promise<PaymentSessionStatus> {
     const id = paymentSessionData.id as string;
-    const paymentIntent = await this.stripe_.paymentIntents.retrieve(id);
+    // const paymentIntent = await this.stripe_.paymentIntents.retrieve(id);
+    const paymentIntent = { status: "succeeded" };
 
     switch (paymentIntent.status) {
       case "requires_payment_method":
@@ -89,55 +68,25 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   async initiatePayment(
     context: PaymentProcessorContext
   ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
-    const intentRequestData = this.getPaymentIntentOptions();
     const {
+      billing_address,
       email,
       context: cart_context,
       currency_code,
       amount,
       resource_id,
       customer,
+      paymentSessionData,
     } = context;
-
-    const description = (cart_context.payment_description ??
-      this.options_?.payment_description) as string;
-
-    const intentRequest: Stripe.PaymentIntentCreateParams = {
-      description,
-      amount: Math.round(amount),
-      currency: currency_code,
-      metadata: { resource_id },
-      capture_method: this.options_.capture ? "automatic" : "manual",
-      ...intentRequestData,
-    };
-
-    if (this.options_?.automatic_payment_methods) {
-      intentRequest.automatic_payment_methods = { enabled: true };
-    }
-
-    if (customer?.metadata?.stripe_id) {
-      intentRequest.customer = customer.metadata.stripe_id as string;
-    } else {
-      let stripeCustomer;
-      try {
-        stripeCustomer = await this.stripe_.customers.create({
-          email,
-        });
-      } catch (e) {
-        return this.buildError(
-          "An error occurred in initiatePayment when creating a Stripe customer",
-          e
-        );
-      }
-
-      intentRequest.customer = stripeCustomer.id;
-    }
 
     let session_data;
     try {
-      session_data = (await this.stripe_.paymentIntents.create(
-        intentRequest
-      )) as unknown as Record<string, unknown>;
+      // check bkash response here and store paymentID to Database if needed
+      session_data = await this.bkash.createPayment({
+        amount: amount,
+        orderID: "ORD1020069", // TODO orderId or cartId give here
+        intent: "sale",
+      });
     } catch (e) {
       return this.buildError(
         "An error occurred in InitiatePayment during the creation of the stripe payment intent",
@@ -147,13 +96,11 @@ abstract class BkashBase extends AbstractPaymentProcessor {
 
     return {
       session_data,
-      update_requests: customer?.metadata?.stripe_id
-        ? undefined
-        : {
-            customer_metadata: {
-              stripe_id: intentRequest.customer,
-            },
-          },
+      update_requests: {
+        customer_metadata: {
+          stripe_id: session_data.customer,
+        },
+      },
     };
   }
 

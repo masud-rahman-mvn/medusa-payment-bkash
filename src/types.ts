@@ -1,6 +1,6 @@
 import { Region } from "@medusajs/medusa";
 
-export interface StripeOptions {
+export interface BkashOptions {
   api_key: string;
   webhook_secret: string;
   /**
