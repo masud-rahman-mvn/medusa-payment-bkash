@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 
 import bodyParser from "body-parser";
-import { bkashController } from "../../core/modules/bkashController";
+import { bkashController } from "./bkashController";
 import cors from "cors";
 app.use(cors());
 

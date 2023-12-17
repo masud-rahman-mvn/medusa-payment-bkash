@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 
-import bkash from "./bkash";
+import bkash from "../core/modules/bkash";
 
 const bkashController = Router();
 

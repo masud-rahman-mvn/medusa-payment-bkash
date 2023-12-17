@@ -8,14 +8,9 @@ import {
 } from "@medusajs/medusa";
 import { EOL } from "os";
 import Stripe from "stripe";
-import {
-  ErrorCodes,
-  ErrorIntentStatus,
-  PaymentIntentOptions,
-  BkashOptions,
-} from "../types";
+import { ErrorCodes, ErrorIntentStatus, BkashOptions } from "../types";
 import { MedusaError } from "@medusajs/utils";
-import BkashGateway from "src/bkash/src";
+import BkashGateway from "src/bkash";
 
 abstract class BkashBase extends AbstractPaymentProcessor {
   static identifier = "";
@@ -46,8 +41,6 @@ abstract class BkashBase extends AbstractPaymentProcessor {
     paymentSessionData: Record<string, unknown>
   ): Promise<PaymentSessionStatus> {
     const id = paymentSessionData.id as string; //TODO paymentID
-
-    // const paymentIntent = await this.stripe_.paymentIntents.retrieve(id);
     const paymentIntent = await this.bkash.queryPayment(id);
 
     switch (paymentIntent.transactionStatus) {
@@ -74,10 +67,9 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       paymentSessionData,
     } = context;
 
-    let session_data;
     try {
       // check bkash response here and store paymentID to Database if needed
-      session_data = await this.bkash.createPayment({
+      const paymentCreateResponse = await this.bkash.createPayment({
         amount: amount,
         orderID: "ORD1020069", // TODO orderId or cartId give here
         intent: "sale",
@@ -90,7 +82,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
     }
 
     return {
-      session_data,
+      session_data: paymentCreateResponse,
       update_requests: {
         customer_metadata: {
           stripe_id: session_data.customer,
@@ -139,7 +131,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   > {
     const id = paymentSessionData.id as string;
     try {
-      const intent = await this.bkash.executePayment(id); //TODO paymentID should give here
+      const intent = await this.bkash.executePayment(id); // TODO paymentID should give here
       return intent as unknown as PaymentProcessorSessionResponse["session_data"];
     } catch (error) {
       if (error.code === ErrorCodes.PAYMENT_INTENT_UNEXPECTED_STATE) {
