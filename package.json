@@ -1,5 +1,5 @@
 {
-  "name": "medusa-payment-stripe2",
+  "name": "medusa-payment-bkash",
   "version": "0.0.1",
   "description": "A starter for Medusa projects.",
   "author": "Medusa (https://medusajs.com)",
@@ -45,6 +45,7 @@
     "medusa-payment-stripe": "^6.0.5",
     "node-fetch": "^3.3.2",
     "prism-react-renderer": "^2.0.4",
+    "tsup": "^8.0.1",
     "typeorm": "^0.3.16"
   },
   "devDependencies": {

@@ -17,8 +17,7 @@
     "jsx": "react-jsx",
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "checkJs": false,
-    "types": ["abort-controller"]
+    "checkJs": false
   },
   "include": ["src/"],
   "exclude": [

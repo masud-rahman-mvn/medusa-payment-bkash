@@ -137,6 +137,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
     const id = paymentSessionData.id as string;
     try {
       const intent = await this.bkash.executePayment(id); // TODO paymentID should give here
+
       return intent as unknown as PaymentProcessorSessionResponse["session_data"];
     } catch (error) {
       if (error.code === ErrorCodes.PAYMENT_INTENT_UNEXPECTED_STATE) {
@@ -173,6 +174,8 @@ abstract class BkashBase extends AbstractPaymentProcessor {
         trxID: "TRX22347463XX",
         sku: "SK256519",
       });
+
+      
     } catch (e) {
       return this.buildError("An error occurred in refundPayment", e);
     }
