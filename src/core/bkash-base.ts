@@ -15,7 +15,7 @@ import {
   PaymentCreateResponse,
 } from "../types";
 import { MedusaError } from "@medusajs/utils";
-import BkashGateway from "src/bkash";
+import BkashGateway from "../bkash/index";
 
 abstract class BkashBase extends AbstractPaymentProcessor {
   static identifier = "";
@@ -174,8 +174,6 @@ abstract class BkashBase extends AbstractPaymentProcessor {
         trxID: "TRX22347463XX",
         sku: "SK256519",
       });
-
-      
     } catch (e) {
       return this.buildError("An error occurred in refundPayment", e);
     }
