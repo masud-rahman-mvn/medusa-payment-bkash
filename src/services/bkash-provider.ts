@@ -1,4 +1,4 @@
-import BkashBase from "../core/bkash-base";
+import BkashBase from "src/core/bkash-base";
 import { PaymentIntentOptions, PaymentProviderKeys } from "../types";
 
 class StripeProviderService extends BkashBase {

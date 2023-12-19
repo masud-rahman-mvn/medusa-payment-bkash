@@ -1,0 +1,503 @@
+{
+    "object": "cart",
+    "id": "cart_01HJ0W2MN4YFRBKM9Y7D8D7TXY",
+    "created_at": "2023-12-19T11:06:19.675Z",
+    "updated_at": "2023-12-19T11:09:27.373Z",
+    "deleted_at": null,
+    "email": "masudur.rahman@moveon.com.bd",
+    "billing_address_id": "addr_01HJ0W8BZC27FEER7X4QE06AS3",
+    "shipping_address_id": "addr_01HJ0W8BZDZD23GQEDBFQCKMGK",
+    "region_id": "reg_01HHKEQZB3JV2DNG471ZK8M2S6",
+    "customer_id": "cus_01HHXQJ1CCSRSRB6P2KPNQP6CZ",
+    "payment_id": null,
+    "type": "default",
+    "completed_at": null,
+    "payment_authorized_at": null,
+    "idempotency_key": null,
+    "context": {
+        "ip": "::1",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    },
+    "metadata": null,
+    "sales_channel_id": "sc_01HHKEQZ6EXDCMY59E28T1RWG4",
+    "billing_address": {
+        "id": "addr_01HJ0W8BZC27FEER7X4QE06AS3",
+        "created_at": "2023-12-19T11:09:27.373Z",
+        "updated_at": "2023-12-19T11:09:27.373Z",
+        "deleted_at": null,
+        "customer_id": null,
+        "company": "MoveOn Tech",
+        "first_name": "Masud",
+        "last_name": "Rahman",
+        "address_1": "Mirpur",
+        "address_2": "",
+        "city": "Dhaka",
+        "country_code": "gb",
+        "province": "England",
+        "postal_code": "12233",
+        "phone": "01704445275",
+        "metadata": null
+    },
+    "discounts": [],
+    "gift_cards": [],
+    "items": [
+        {
+            "id": "item_01HJ0Y7DMECCJNYNQWC91E4P3X",
+            "created_at": "2023-12-19T11:43:53.476Z",
+            "updated_at": "2023-12-19T11:50:58.947Z",
+            "cart_id": "cart_01HJ0W2MN4YFRBKM9Y7D8D7TXY",
+            "order_id": null,
+            "swap_id": null,
+            "claim_order_id": null,
+            "original_item_id": null,
+            "order_edit_id": null,
+            "title": "Medusa Sweatshirt",
+            "description": "M",
+            "thumbnail": "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-front.png",
+            "is_return": false,
+            "is_giftcard": false,
+            "should_merge": true,
+            "allow_discounts": true,
+            "has_shipping": false,
+            "unit_price": 2950,
+            "variant_id": "variant_01HHKEQZGWMYEEJ7PCMRAFF7M2",
+            "quantity": 1,
+            "fulfilled_quantity": null,
+            "returned_quantity": null,
+            "shipped_quantity": null,
+            "metadata": {},
+            "adjustments": [],
+            "tax_lines": [
+                {
+                    "rate": 0,
+                    "name": "default",
+                    "code": "default",
+                    "item_id": "item_01HJ0Y7DMECCJNYNQWC91E4P3X"
+                }
+            ],
+            "variant": {
+                "id": "variant_01HHKEQZGWMYEEJ7PCMRAFF7M2",
+                "created_at": "2023-12-14T06:03:10.983Z",
+                "updated_at": "2023-12-14T06:03:10.983Z",
+                "deleted_at": null,
+                "title": "M",
+                "product_id": "prod_01HHKEQZG8ECGG1MK9EBARX325",
+                "sku": null,
+                "barcode": null,
+                "ean": null,
+                "upc": null,
+                "variant_rank": 1,
+                "inventory_quantity": 100,
+                "allow_backorder": false,
+                "manage_inventory": true,
+                "hs_code": null,
+                "origin_country": null,
+                "mid_code": null,
+                "material": null,
+                "weight": null,
+                "length": null,
+                "height": null,
+                "width": null,
+                "metadata": null,
+                "product": {
+                    "id": "prod_01HHKEQZG8ECGG1MK9EBARX325",
+                    "created_at": "2023-12-14T06:03:10.983Z",
+                    "updated_at": "2023-12-14T06:03:10.983Z",
+                    "deleted_at": null,
+                    "title": "Medusa Sweatshirt",
+                    "subtitle": null,
+                    "description": "Reimagine the feeling of a classic sweatshirt. With our cotton sweatshirt, everyday essentials no longer have to be ordinary.",
+                    "handle": "sweatshirt",
+                    "is_giftcard": false,
+                    "status": "published",
+                    "thumbnail": "https://medusa-public-images.s3.eu-west-1.amazonaws.com/sweatshirt-vintage-front.png",
+                    "weight": 400,
+                    "length": null,
+                    "height": null,
+                    "width": null,
+                    "hs_code": null,
+                    "origin_country": null,
+                    "mid_code": null,
+                    "material": null,
+                    "collection_id": null,
+                    "type_id": null,
+                    "discountable": true,
+                    "external_id": null,
+                    "metadata": null,
+                    "profiles": [
+                        {
+                            "id": "sp_01HHKEQZ5WB30N25PJJENVSN55",
+                            "created_at": "2023-12-14T06:03:10.865Z",
+                            "updated_at": "2023-12-14T06:03:10.865Z",
+                            "deleted_at": null,
+                            "name": "Default Shipping Profile",
+                            "type": "default",
+                            "metadata": null
+                        }
+                    ],
+                    "profile": {
+                        "id": "sp_01HHKEQZ5WB30N25PJJENVSN55",
+                        "created_at": "2023-12-14T06:03:10.865Z",
+                        "updated_at": "2023-12-14T06:03:10.865Z",
+                        "deleted_at": null,
+                        "name": "Default Shipping Profile",
+                        "type": "default",
+                        "metadata": null
+                    },
+                    "profile_id": "sp_01HHKEQZ5WB30N25PJJENVSN55"
+                }
+            },
+            "subtotal": 2950,
+            "discount_total": 0,
+            "total": 2950,
+            "original_total": 2950,
+            "original_tax_total": 0,
+            "tax_total": 0,
+            "raw_discount_total": 0
+        }
+    ],
+    "payment": null,
+    "payment_sessions": [
+        {
+            "id": "ps_01HJ0Y7JHTWCA4XZ8DKVX5JNVK",
+            "created_at": "2023-12-19T11:43:58.502Z",
+            "updated_at": "2023-12-19T12:06:06.518Z",
+            "cart_id": "cart_01HJ0W2MN4YFRBKM9Y7D8D7TXY",
+            "provider_id": "bkash",
+            "is_selected": null,
+            "is_initiated": false,
+            "status": "pending",
+            "data": {},
+            "idempotency_key": null,
+            "amount": 4450,
+            "payment_authorized_at": null
+        },
+        {
+            "id": "ps_01HJ0Y7JHSSCKYHB8SMF8ZZ2MZ",
+            "created_at": "2023-12-19T11:43:58.502Z",
+            "updated_at": "2023-12-19T12:06:06.518Z",
+            "cart_id": "cart_01HJ0W2MN4YFRBKM9Y7D8D7TXY",
+            "provider_id": "manual",
+            "is_selected": null,
+            "is_initiated": false,
+            "status": "pending",
+            "data": {
+                "status": "pending"
+            },
+            "idempotency_key": null,
+            "amount": 4450,
+            "payment_authorized_at": null
+        },
+        {
+            "id": "ps_01HJ0Y7JHT83KQMXS5MJWNZ664",
+            "created_at": "2023-12-19T11:43:58.502Z",
+            "updated_at": "2023-12-19T12:06:06.518Z",
+            "cart_id": "cart_01HJ0W2MN4YFRBKM9Y7D8D7TXY",
+            "provider_id": "stripe",
+            "is_selected": true,
+            "is_initiated": true,
+            "status": "pending",
+            "data": {
+                "id": "pi_3OP23oLkbEqWCF9W14KBfqpW",
+                "amount": 4450,
+                "object": "payment_intent",
+                "review": null,
+                "source": null,
+                "status": "requires_payment_method",
+                "created": 1702987568,
+                "invoice": null,
+                "currency": "eur",
+                "customer": "cus_PD2JyrOGhzvgGF",
+                "livemode": false,
+                "metadata": {
+                    "resource_id": "cart_01HJ0W2MN4YFRBKM9Y7D8D7TXY"
+                },
+                "shipping": null,
+                "processing": null,
+                "application": null,
+                "canceled_at": null,
+                "description": null,
+                "next_action": null,
+                "on_behalf_of": null,
+                "client_secret": "pi_3OP23oLkbEqWCF9W14KBfqpW_secret_NPaY4QCl6inuJ1o2PT2qqJwi4",
+                "latest_charge": null,
+                "receipt_email": null,
+                "transfer_data": null,
+                "amount_details": {
+                    "tip": {}
+                },
+                "capture_method": "manual",
+                "payment_method": null,
+                "transfer_group": null,
+                "amount_received": 0,
+                "amount_capturable": 0,
+                "last_payment_error": null,
+                "setup_future_usage": null,
+                "cancellation_reason": null,
+                "confirmation_method": "automatic",
+                "payment_method_types": [
+                    "card"
+                ],
+                "statement_descriptor": null,
+                "application_fee_amount": null,
+                "payment_method_options": {
+                    "card": {
+                        "network": null,
+                        "installments": null,
+                        "mandate_options": null,
+                        "request_three_d_secure": "automatic"
+                    }
+                },
+                "automatic_payment_methods": null,
+                "statement_descriptor_suffix": null,
+                "payment_method_configuration_details": null
+            },
+            "idempotency_key": null,
+            "amount": 4450,
+            "payment_authorized_at": null
+        }
+    ],
+    "payment_session": {
+        "id": "ps_01HJ0Y7JHT83KQMXS5MJWNZ664",
+        "created_at": "2023-12-19T11:43:58.502Z",
+        "updated_at": "2023-12-19T12:06:06.518Z",
+        "cart_id": "cart_01HJ0W2MN4YFRBKM9Y7D8D7TXY",
+        "provider_id": "stripe",
+        "is_selected": true,
+        "is_initiated": true,
+        "status": "pending",
+        "data": {
+            "id": "pi_3OP23oLkbEqWCF9W14KBfqpW",
+            "amount": 4450,
+            "object": "payment_intent",
+            "review": null,
+            "source": null,
+            "status": "requires_payment_method",
+            "created": 1702987568,
+            "invoice": null,
+            "currency": "eur",
+            "customer": "cus_PD2JyrOGhzvgGF",
+            "livemode": false,
+            "metadata": {
+                "resource_id": "cart_01HJ0W2MN4YFRBKM9Y7D8D7TXY"
+            },
+            "shipping": null,
+            "processing": null,
+            "application": null,
+            "canceled_at": null,
+            "description": null,
+            "next_action": null,
+            "on_behalf_of": null,
+            "client_secret": "pi_3OP23oLkbEqWCF9W14KBfqpW_secret_NPaY4QCl6inuJ1o2PT2qqJwi4",
+            "latest_charge": null,
+            "receipt_email": null,
+            "transfer_data": null,
+            "amount_details": {
+                "tip": {}
+            },
+            "capture_method": "manual",
+            "payment_method": null,
+            "transfer_group": null,
+            "amount_received": 0,
+            "amount_capturable": 0,
+            "last_payment_error": null,
+            "setup_future_usage": null,
+            "cancellation_reason": null,
+            "confirmation_method": "automatic",
+            "payment_method_types": [
+                "card"
+            ],
+            "statement_descriptor": null,
+            "application_fee_amount": null,
+            "payment_method_options": {
+                "card": {
+                    "network": null,
+                    "installments": null,
+                    "mandate_options": null,
+                    "request_three_d_secure": "automatic"
+                }
+            },
+            "automatic_payment_methods": null,
+            "statement_descriptor_suffix": null,
+            "payment_method_configuration_details": null
+        },
+        "idempotency_key": null,
+        "amount": 4450,
+        "payment_authorized_at": null
+    },
+    "region": {
+        "id": "reg_01HHKEQZB3JV2DNG471ZK8M2S6",
+        "created_at": "2023-12-14T06:03:10.983Z",
+        "updated_at": "2023-12-18T08:30:25.158Z",
+        "deleted_at": null,
+        "name": "EU",
+        "currency_code": "eur",
+        "tax_rate": 0,
+        "tax_code": null,
+        "gift_cards_taxable": true,
+        "automatic_taxes": true,
+        "tax_provider_id": null,
+        "metadata": {},
+        "countries": [
+            {
+                "id": 109,
+                "iso_2": "it",
+                "iso_3": "ita",
+                "num_code": 380,
+                "name": "ITALY",
+                "display_name": "Italy",
+                "region_id": "reg_01HHKEQZB3JV2DNG471ZK8M2S6"
+            },
+            {
+                "id": 209,
+                "iso_2": "es",
+                "iso_3": "esp",
+                "num_code": 724,
+                "name": "SPAIN",
+                "display_name": "Spain",
+                "region_id": "reg_01HHKEQZB3JV2DNG471ZK8M2S6"
+            },
+            {
+                "id": 75,
+                "iso_2": "fr",
+                "iso_3": "fra",
+                "num_code": 250,
+                "name": "FRANCE",
+                "display_name": "France",
+                "region_id": "reg_01HHKEQZB3JV2DNG471ZK8M2S6"
+            },
+            {
+                "id": 60,
+                "iso_2": "dk",
+                "iso_3": "dnk",
+                "num_code": 208,
+                "name": "DENMARK",
+                "display_name": "Denmark",
+                "region_id": "reg_01HHKEQZB3JV2DNG471ZK8M2S6"
+            },
+            {
+                "id": 82,
+                "iso_2": "de",
+                "iso_3": "deu",
+                "num_code": 276,
+                "name": "GERMANY",
+                "display_name": "Germany",
+                "region_id": "reg_01HHKEQZB3JV2DNG471ZK8M2S6"
+            },
+            {
+                "id": 235,
+                "iso_2": "gb",
+                "iso_3": "gbr",
+                "num_code": 826,
+                "name": "UNITED KINGDOM",
+                "display_name": "United Kingdom",
+                "region_id": "reg_01HHKEQZB3JV2DNG471ZK8M2S6"
+            },
+            {
+                "id": 215,
+                "iso_2": "se",
+                "iso_3": "swe",
+                "num_code": 752,
+                "name": "SWEDEN",
+                "display_name": "Sweden",
+                "region_id": "reg_01HHKEQZB3JV2DNG471ZK8M2S6"
+            }
+        ],
+        "payment_providers": [
+            {
+                "id": "manual",
+                "is_installed": true
+            },
+            {
+                "id": "stripe",
+                "is_installed": true
+            },
+            {
+                "id": "bkash",
+                "is_installed": false
+            }
+        ],
+        "tax_rates": []
+    },
+    "sales_channel": {
+        "id": "sc_01HHKEQZ6EXDCMY59E28T1RWG4",
+        "created_at": "2023-12-14T06:03:10.865Z",
+        "updated_at": "2023-12-14T06:03:10.865Z",
+        "deleted_at": null,
+        "name": "Default Sales Channel",
+        "description": "Created by Medusa",
+        "is_disabled": false,
+        "metadata": null
+    },
+    "shipping_address": {
+        "id": "addr_01HJ0W8BZDZD23GQEDBFQCKMGK",
+        "created_at": "2023-12-19T11:09:27.373Z",
+        "updated_at": "2023-12-19T11:09:27.373Z",
+        "deleted_at": null,
+        "customer_id": null,
+        "company": "MoveOn Tech",
+        "first_name": "Masud",
+        "last_name": "Rahman",
+        "address_1": "Mirpur",
+        "address_2": "",
+        "city": "Dhaka",
+        "country_code": "gb",
+        "province": "England",
+        "postal_code": "12233",
+        "phone": "01704445275",
+        "metadata": null
+    },
+    "shipping_methods": [
+        {
+            "id": "sm_01HJ0Y88859MX2E1ZRXSKJXFFQ",
+            "shipping_option_id": "so_01HHKEQZC26KEGRRACTQ6KEG3M",
+            "order_id": null,
+            "claim_order_id": null,
+            "cart_id": "cart_01HJ0W2MN4YFRBKM9Y7D8D7TXY",
+            "swap_id": null,
+            "return_id": null,
+            "price": 1500,
+            "data": {},
+            "shipping_option": {
+                "id": "so_01HHKEQZC26KEGRRACTQ6KEG3M",
+                "created_at": "2023-12-14T06:03:10.983Z",
+                "updated_at": "2023-12-14T06:03:10.983Z",
+                "deleted_at": null,
+                "name": "PostFake Express",
+                "region_id": "reg_01HHKEQZB3JV2DNG471ZK8M2S6",
+                "profile_id": "sp_01HHKEQZ5WB30N25PJJENVSN55",
+                "provider_id": "manual",
+                "price_type": "flat_rate",
+                "amount": 1500,
+                "is_return": false,
+                "admin_only": false,
+                "data": {
+                    "id": "manual-fulfillment"
+                },
+                "metadata": null
+            },
+            "tax_lines": [
+                {
+                    "rate": 0,
+                    "name": "default",
+                    "code": "default",
+                    "shipping_method_id": "sm_01HJ0Y88859MX2E1ZRXSKJXFFQ"
+                }
+            ],
+            "original_total": 1500,
+            "total": 1500,
+            "subtotal": 1500,
+            "original_tax_total": 0,
+            "tax_total": 0
+        }
+    ],
+    "subtotal": 2950,
+    "discount_total": 0,
+    "item_tax_total": 0,
+    "shipping_total": 1500,
+    "shipping_tax_total": 0,
+    "tax_total": 0,
+    "gift_card_total": 0,
+    "gift_card_tax_total": 0,
+    "total": 4450
+}
