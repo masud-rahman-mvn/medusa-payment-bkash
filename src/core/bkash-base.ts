@@ -16,6 +16,7 @@ import {
 } from "../types";
 import { MedusaError } from "@medusajs/utils";
 import BkashGateway from "../bkash/index";
+import { IBkashExecutePaymentResponse } from "src/bkash/interfaces/bkashResponse.interface";
 
 abstract class BkashBase extends AbstractPaymentProcessor {
   static identifier = "";
@@ -47,14 +48,12 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   ): Promise<PaymentSessionStatus> {
     const id = paymentSessionData.id as string; //TODO paymentID
     const paymentIntent = await this.bkash.queryPayment(id);
-
-    switch (paymentIntent.transactionStatus) {
-      case "Initiated":
-        return PaymentSessionStatus.PENDING;
-      case "Completed":
-        return PaymentSessionStatus.AUTHORIZED;
-      default:
-        return PaymentSessionStatus.PENDING;
+    if (paymentIntent.transactionStatus === "Completed") {
+      return PaymentSessionStatus.AUTHORIZED;
+    } else if (paymentIntent.transactionStatus === "Initiated") {
+      return PaymentSessionStatus.PENDING;
+    } else {
+      return PaymentSessionStatus.PENDING;
     }
   }
   // progress
@@ -72,6 +71,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       paymentSessionData,
     } = context;
     let paymentCreateResponse: PaymentCreateResponse;
+    let bkashExecutePaymentResponse: IBkashExecutePaymentResponse;
     try {
       // check bkash response here and store paymentID to Database if needed
       paymentCreateResponse = await this.bkash.createPayment({
@@ -79,6 +79,12 @@ abstract class BkashBase extends AbstractPaymentProcessor {
         orderID: "ORD1020069", // TODO orderId or cartId give here
         intent: "sale",
       });
+
+      if (bkashExecutePaymentResponse?.paymentID) {
+        bkashExecutePaymentResponse = await this.bkash.executePayment(
+          bkashExecutePaymentResponse?.paymentID
+        );
+      }
     } catch (e) {
       return this.buildError(
         "An error occurred in InitiatePayment during the creation of the stripe payment intent",
@@ -87,7 +93,12 @@ abstract class BkashBase extends AbstractPaymentProcessor {
     }
 
     return {
-      session_data: paymentCreateResponse,
+      session_data: {
+        bkashPaymentSessionData: {
+          paymentCreateResponse,
+          bkashExecutePaymentResponse,
+        },
+      },
       update_requests: {
         customer_metadata: {
           bkash_id: "session_data.customer", //TODO update here
@@ -106,9 +117,11 @@ abstract class BkashBase extends AbstractPaymentProcessor {
         data: PaymentProcessorSessionResponse["session_data"];
       }
   > {
+    const id = paymentSessionData.id as string; // TODO paymentID should give here
     const status = await this.getPaymentStatus(paymentSessionData);
-
-    return { data: paymentSessionData, status };
+    if (status === "authorized") {
+      return { data: paymentSessionData, status };
+    }
   }
 
   async cancelPayment(
@@ -136,7 +149,8 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   > {
     const id = paymentSessionData.id as string;
     try {
-      const intent = await this.bkash.executePayment(id); // TODO paymentID should give here
+      // TODO paymentID should give here
+      const intent = await this.bkash.executePayment(id);
 
       return intent as unknown as PaymentProcessorSessionResponse["session_data"];
     } catch (error) {
