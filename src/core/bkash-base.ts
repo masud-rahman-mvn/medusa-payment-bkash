@@ -56,7 +56,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       return PaymentSessionStatus.PENDING;
     }
   }
-  // progress
+  // progress customer
   async initiatePayment(
     context: PaymentProcessorContext
   ): Promise<PaymentProcessorError | PaymentProcessorSessionResponse> {
@@ -76,7 +76,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       // check bkash response here and store paymentID to Database if needed
       paymentCreateResponse = await this.bkash.createPayment({
         amount: amount,
-        orderID: "ORD1020069", // TODO orderId or cartId give here
+        orderID: paymentSessionData.cart_id as string, // TODO orderId or cartId give here
         intent: "sale",
       });
 
@@ -106,7 +106,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       },
     };
   }
-  // progress
+  // progress customer
   async authorizePayment(
     paymentSessionData: Record<string, unknown>,
     context: Record<string, unknown>
@@ -141,7 +141,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
       return this.buildError("An error occurred in cancelPayment", error);
     }
   }
-  // progress
+  // progress admin
   async capturePayment(
     paymentSessionData: Record<string, unknown>
   ): Promise<
@@ -149,7 +149,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   > {
     const id = paymentSessionData.id as string;
     try {
-      // TODO paymentID should give here
+      // TODO paymentID should give here and the
       const intent = await this.bkash.executePayment(id);
 
       return intent as unknown as PaymentProcessorSessionResponse["session_data"];
