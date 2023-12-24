@@ -79,12 +79,6 @@ abstract class BkashBase extends AbstractPaymentProcessor {
         orderID: paymentSessionData.cart_id as string, // TODO orderId or cartId give here
         intent: "sale",
       });
-
-      if (bkashExecutePaymentResponse?.paymentID) {
-        bkashExecutePaymentResponse = await this.bkash.executePayment(
-          bkashExecutePaymentResponse?.paymentID
-        );
-      }
     } catch (e) {
       return this.buildError(
         "An error occurred in InitiatePayment during the creation of the stripe payment intent",
@@ -120,6 +114,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
     const id = paymentSessionData.id as string; // TODO paymentID should give here
     const status = await this.getPaymentStatus(paymentSessionData);
     if (status === "authorized") {
+      const data = await this.bkash.executePayment(id);
       return { data: paymentSessionData, status };
     }
   }

@@ -1,7 +1,7 @@
-import BkashBase from "src/core/bkash-base";
+import BkashBase from "../core/bkash-base";
 import { PaymentIntentOptions, PaymentProviderKeys } from "../types";
 
-class StripeProviderService extends BkashBase {
+class BkashProviderService extends BkashBase {
   static identifier = PaymentProviderKeys.BKASH;
 
   constructor(container, options) {
@@ -13,4 +13,4 @@ class StripeProviderService extends BkashBase {
   }
 }
 
-export default StripeProviderService;
+export default BkashProviderService;
