@@ -21,6 +21,7 @@
   },
   "include": ["src/**/*"],
   "exclude": [
+    "_sample_response/**/*",
     "**/__tests__",
     "**/__fixtures__",
     "node_modules",
