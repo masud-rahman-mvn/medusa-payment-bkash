@@ -7,7 +7,7 @@ import {
   PaymentSessionStatus,
 } from "@medusajs/medusa";
 import { EOL } from "os";
-import Stripe from "stripe";
+
 import {
   ErrorCodes,
   ErrorIntentStatus,
@@ -258,7 +258,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
 
   protected buildError(
     message: string,
-    e: Stripe.StripeRawError | PaymentProcessorError | Error
+    e: PaymentProcessorError | Error
   ): PaymentProcessorError {
     return {
       error: message,
