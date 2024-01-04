@@ -113,7 +113,7 @@ abstract class BkashBase extends AbstractPaymentProcessor {
   > {
     const id = paymentSessionData.id as string; // TODO paymentID should give here
     const status = await this.getPaymentStatus(paymentSessionData);
-    if (status === "authorized") {
+    if (status !== "authorized") {
       const data = await this.bkash.executePayment(id);
       return { data: paymentSessionData, status };
     }
