@@ -24,7 +24,7 @@ export default (rootDirectory) => {
   );
   app.get(`/admin/orders/bkash-payments/:order_id`, async (req, res) => {
     // const payments = await getStripePayments(req)
-    res.json({ payments: "" });
+    res.json({ payments: "bkash-payments" });
   });
 
   return app;

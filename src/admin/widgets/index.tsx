@@ -1,9 +1,7 @@
 import { OrderDetailsWidgetProps, WidgetConfig } from "@medusajs/admin";
-import { useAdminCustomQuery } from "medusa-react";
-import { ListStripeIntentRes } from "../../types";
 
 const MyWidget = (props: OrderDetailsWidgetProps) => {
-  return <div>MyWidget</div>;
+  return <div>MyWidget Bkash</div>;
 };
 
 export const config: WidgetConfig = {
